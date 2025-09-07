@@ -1,0 +1,53 @@
+# https://firefox-source-docs.mozilla.org/setup/linux_build.html
+name: Build Firefox
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Bootstrap a copy of the Firefox source code
+              uses: actions/checkout@v5
+              with:
+                  repository: "mozilla-firefox/firefox"
+
+            - name: System preparation
+              run: sudo apt update && sudo apt install curl python3 python3-pip git
+
+            - name: Bootstrap
+              run: ./mach --no-interactive --verbose bootstrap --application-choice browser
+              # browser_artifact_mode or browser, browser for full build
+
+            - name: Build
+              run: ./mach --verbose --no-interactive build
+
+            - name: Build symbols
+              run: ./mach --verbose --no-interactive buildsymbols
+
+            - name: Package
+              run: ./mach --verbose --no-interactive package
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: obj-x86_64-pc-linux-gnu/dist/
+                  compression-level: 9
+
+            - name: System preparation for testing
+              run: sudo apt update && sudo apt install ubuntu-desktop
+
+            - name: Testing - xpcshell-test
+              continue-on-error: true
+              run: ./mach --verbose --no-interactive xpcshell-test
+
+            - name: Testing - mochitest
+              continue-on-error: true
+              run: ./mach --verbose --no-interactive mochitest
+
+            - name: Testing - web-platform-tests
+              continue-on-error: true
+              run: ./mach --verbose --no-interactive wpt
