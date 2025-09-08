@@ -47,4 +47,5 @@ jobs:
                   path: |
                       obj-*/dist/*.zip
                       obj-*/dist/*.exe
+                      obj-*/dist/*.txt
                   compression-level: 9
