@@ -1,0 +1,31 @@
+# https://firefox-source-docs.mozilla.org/setup/windows_build.html
+name: Build Firefox for Windows
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+            - name: Bootstrap a copy of the Firefox source code
+              uses: actions/checkout@v5
+              with:
+                  repository: "mozilla-firefox/firefox"
+
+            - name: Bootstrap
+              run: ./mach --no-interactive bootstrap --application-choice browser_artifact_mode
+              # browser_artifact_mode or browser, browser for full build
+
+            - name: Build
+              run: ./mach --no-interactive build
+
+            - name: Build symbols
+              run: ./mach --no-interactive buildsymbols
+
+            - name: Package
+              run: ./mach --no-interactive package
+
+            - name: List dir
+              run: dir
