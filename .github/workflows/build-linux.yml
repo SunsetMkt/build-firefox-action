@@ -64,3 +64,12 @@ jobs:
             # - name: Testing - mochitest
             #   continue-on-error: true
             #   run: ./mach --no-interactive mochitest --headless
+
+            - name: Upload Packages
+              uses: actions/upload-artifact@v4
+              with:
+                  name: packages
+                  path: |
+                      obj-*/dist/*.zip
+                      obj-*/dist/*.exe
+                  compression-level: 9
