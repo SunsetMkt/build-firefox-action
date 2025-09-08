@@ -1,5 +1,5 @@
 # https://firefox-source-docs.mozilla.org/setup/linux_build.html
-name: Build Firefox
+name: Build Firefox for Linux
 
 on:
     workflow_dispatch:
