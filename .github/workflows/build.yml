@@ -29,7 +29,7 @@ jobs:
               run: sudo apt update && sudo apt install curl python3 python3-pip git
 
             - name: Bootstrap
-              run: ./mach --no-interactive --verbose bootstrap --application-choice browser
+              run: ./mach --no-interactive bootstrap --application-choice browser
               # browser_artifact_mode or browser, browser for full build
 
             - name: Check free space
@@ -38,13 +38,13 @@ jobs:
                   df -h
 
             - name: Build
-              run: ./mach --verbose --no-interactive build
+              run: ./mach --no-interactive build
 
             - name: Build symbols
-              run: ./mach --verbose --no-interactive buildsymbols
+              run: ./mach --no-interactive buildsymbols
 
             - name: Package
-              run: ./mach --verbose --no-interactive package
+              run: ./mach --no-interactive package
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
@@ -58,12 +58,12 @@ jobs:
 
             - name: Testing - xpcshell-test
               continue-on-error: true
-              run: ./mach --verbose --no-interactive xpcshell-test
+              run: ./mach --no-interactive xpcshell-test
 
             - name: Testing - mochitest
               continue-on-error: true
-              run: ./mach --verbose --no-interactive mochitest
+              run: ./mach --no-interactive mochitest
 
             - name: Testing - web-platform-tests
               continue-on-error: true
-              run: ./mach --verbose --no-interactive wpt
+              run: ./mach --no-interactive wpt
