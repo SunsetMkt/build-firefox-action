@@ -21,7 +21,7 @@ jobs:
                   Start-Process -FilePath ".\MozillaBuildSetup-Latest.exe" -ArgumentList "/S" -Wait
 
             - name: Bootstrap
-              run: ./mach --no-interactive bootstrap --application-choice browser_artifact_mode
+              run: ./mach --no-interactive bootstrap --application-choice browser
               # browser_artifact_mode or browser, browser for full build
 
             - name: Build
