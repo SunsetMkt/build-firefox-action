@@ -18,7 +18,7 @@ jobs:
               run: sudo apt update && sudo apt install curl python3 python3-pip git
 
             - name: Bootstrap
-              run: ./mach --no-interactive --verbose bootstrap --application-choice browser
+              run: ./mach --no-interactive --verbose bootstrap --application-choice browser_artifact_mode
               # browser_artifact_mode or browser, browser for full build
 
             - name: Build
