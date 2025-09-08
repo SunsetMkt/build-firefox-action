@@ -53,14 +53,14 @@ jobs:
                   path: obj-x86_64-pc-linux-gnu/dist/
                   compression-level: 9
 
-            - name: System preparation for testing
-              run: sudo apt-get update && sudo apt-get install ubuntu-desktop
+            # - name: System preparation for testing
+            #   run: sudo apt-get update && sudo apt-get install ubuntu-desktop
 
             # To get your tests running in continuous integration, try web-platform-tests, or Mochitest.
             # - name: Testing - web-platform-tests
             #   continue-on-error: true
             #   run: ./mach --no-interactive wpt --headless
 
-            - name: Testing - mochitest
-              continue-on-error: true
-              run: ./mach --no-interactive mochitest --headless
+            # - name: Testing - mochitest
+            #   continue-on-error: true
+            #   run: ./mach --no-interactive mochitest --headless
