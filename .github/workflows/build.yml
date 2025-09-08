@@ -56,14 +56,11 @@ jobs:
             - name: System preparation for testing
               run: sudo apt update && sudo apt install ubuntu-desktop
 
-            - name: Testing - xpcshell-test
+            # To get your tests running in continuous integration, try web-platform-tests, or Mochitest.
+            - name: Testing - web-platform-tests
               continue-on-error: true
-              run: ./mach --no-interactive xpcshell-test
+              run: ./mach --no-interactive wpt --headless
 
             - name: Testing - mochitest
               continue-on-error: true
-              run: ./mach --no-interactive mochitest
-
-            - name: Testing - web-platform-tests
-              continue-on-error: true
-              run: ./mach --no-interactive wpt
+              run: ./mach --no-interactive mochitest --headless
