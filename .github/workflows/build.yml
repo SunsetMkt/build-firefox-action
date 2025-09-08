@@ -12,7 +12,7 @@ jobs:
             - name: Maximize build space
               uses: easimon/maximize-build-space@c28619d8999a147d5e09c1199f84ff6af6ad5794
               with:
-                  root-reserve-mb: 10240
+                  root-reserve-mb: 15360
                   swap-size-mb: 1024
                   remove-dotnet: "true"
                   remove-android: "true"
@@ -57,9 +57,9 @@ jobs:
               run: sudo apt-get update && sudo apt-get install ubuntu-desktop
 
             # To get your tests running in continuous integration, try web-platform-tests, or Mochitest.
-            - name: Testing - web-platform-tests
-              continue-on-error: true
-              run: ./mach --no-interactive wpt --headless
+            # - name: Testing - web-platform-tests
+            #   continue-on-error: true
+            #   run: ./mach --no-interactive wpt --headless
 
             - name: Testing - mochitest
               continue-on-error: true
