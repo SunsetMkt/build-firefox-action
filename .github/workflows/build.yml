@@ -9,6 +9,17 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: Maximize build space
+              uses: easimon/maximize-build-space@c28619d8999a147d5e09c1199f84ff6af6ad5794
+              with:
+                  root-reserve-mb: 512
+                  swap-size-mb: 1024
+                  remove-dotnet: "true"
+                  remove-android: "true"
+                  remove-haskell: "true"
+                  remove-codeql: "true"
+                  remove-docker-images: "true"
+
             - name: Bootstrap a copy of the Firefox source code
               uses: actions/checkout@v5
               with:
@@ -18,8 +29,13 @@ jobs:
               run: sudo apt update && sudo apt install curl python3 python3-pip git
 
             - name: Bootstrap
-              run: ./mach --no-interactive --verbose bootstrap --application-choice browser_artifact_mode
+              run: ./mach --no-interactive --verbose bootstrap --application-choice browser
               # browser_artifact_mode or browser, browser for full build
+
+            - name: Check free space
+              run: |
+                  echo "Free space:"
+                  df -h
 
             - name: Build
               run: ./mach --verbose --no-interactive build
