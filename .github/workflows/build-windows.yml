@@ -33,5 +33,9 @@ jobs:
             - name: Package
               run: ./mach --no-interactive package
 
-            - name: List dir
-              run: dir
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: obj-x86_64-pc-windows-msvc/dist/
+                  compression-level: 9
