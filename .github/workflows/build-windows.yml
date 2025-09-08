@@ -14,6 +14,12 @@ jobs:
               with:
                   repository: "mozilla-firefox/firefox"
 
+            - name: System preparation
+              shell: pwsh
+              run: |
+                  Invoke-WebRequest -Uri "https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe" -OutFile ".\MozillaBuildSetup-Latest.exe"
+                  Start-Process -FilePath ".\MozillaBuildSetup-Latest.exe" -ArgumentList "/S" -Wait
+
             - name: Bootstrap
               run: ./mach --no-interactive bootstrap --application-choice browser_artifact_mode
               # browser_artifact_mode or browser, browser for full build
