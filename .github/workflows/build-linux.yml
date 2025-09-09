@@ -3,6 +3,15 @@ name: Build Firefox for Linux
 
 on:
     workflow_dispatch:
+        inputs:
+            application:
+                description: "--application-choice"
+                required: true
+                default: "browser"
+                type: choice
+                options:
+                    - browser_artifact_mode
+                    - browser
 
 jobs:
     build:
@@ -29,7 +38,7 @@ jobs:
               run: sudo apt-get update && sudo apt-get install curl python3 python3-pip git
 
             - name: Bootstrap
-              run: ./mach --no-interactive bootstrap --application-choice browser
+              run: ./mach --no-interactive bootstrap --application-choice ${{ inputs.application }}
               # browser_artifact_mode or browser, browser for full build
 
             - name: Check free space
@@ -50,7 +59,17 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dist
-                  path: obj-x86_64-pc-linux-gnu/dist/
+                  path: obj-*/dist/
+                  compression-level: 9
+
+            - name: Upload Packages
+              uses: actions/upload-artifact@v4
+              with:
+                  name: packages
+                  path: |
+                      obj-*/dist/*.zip
+                      obj-*/dist/*.exe
+                      obj-*/dist/*.txt
                   compression-level: 9
 
             # - name: System preparation for testing
@@ -64,13 +83,3 @@ jobs:
             # - name: Testing - mochitest
             #   continue-on-error: true
             #   run: ./mach --no-interactive mochitest --headless
-
-            - name: Upload Packages
-              uses: actions/upload-artifact@v4
-              with:
-                  name: packages
-                  path: |
-                      obj-*/dist/*.zip
-                      obj-*/dist/*.exe
-                      obj-*/dist/*.txt
-                  compression-level: 9

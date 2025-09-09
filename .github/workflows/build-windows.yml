@@ -3,12 +3,22 @@ name: Build Firefox for Windows
 
 on:
     workflow_dispatch:
+        inputs:
+            application:
+                description: "--application-choice"
+                required: true
+                default: "browser"
+                type: choice
+                options:
+                    - browser_artifact_mode
+                    - browser
 
 jobs:
     build:
         runs-on: windows-latest
 
         steps:
+            # Windows runners provide a much bigger D: drive than Linux runners, so there's no Maximize build space action.
             - name: Bootstrap a copy of the Firefox source code
               uses: actions/checkout@v5
               with:
@@ -21,7 +31,7 @@ jobs:
                   Start-Process -FilePath ".\MozillaBuildSetup-Latest.exe" -ArgumentList "/S" -Wait
 
             - name: Bootstrap
-              run: ./mach --no-interactive bootstrap --application-choice browser
+              run: ./mach --no-interactive bootstrap --application-choice ${{ inputs.application }}
               # browser_artifact_mode or browser, browser for full build
 
             - name: Build
@@ -37,7 +47,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: dist
-                  path: obj-x86_64-pc-windows-msvc/dist/
+                  path: obj-*/dist/
                   compression-level: 9
 
             - name: Upload Packages
