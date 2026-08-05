@@ -19,10 +19,16 @@ jobs:
 
         steps:
             # Windows runners provide a much bigger D: drive than Linux runners, so there's no Maximize build space action.
+            - name: Enable long paths
+              shell: pwsh
+              run: git config --system core.longpaths true
+
             - name: Bootstrap a copy of the Firefox source code
               uses: actions/checkout@v5
               with:
                   repository: "mozilla-firefox/firefox"
+                  fetch-depth: 1
+                  submodules: recursive
 
             - name: System preparation
               shell: pwsh

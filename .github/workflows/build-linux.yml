@@ -19,20 +19,22 @@ jobs:
 
         steps:
             - name: Maximize build space
-              uses: easimon/maximize-build-space@c28619d8999a147d5e09c1199f84ff6af6ad5794
+              uses: justinthelaw/maximize-github-runner-space@v1
               with:
-                  root-reserve-mb: 15360
-                  swap-size-mb: 1024
+                  cleanup-profile: custom
+                  swapfile-size: 1GiB
                   remove-dotnet: "true"
                   remove-android: "true"
                   remove-haskell: "true"
                   remove-codeql: "true"
-                  remove-docker-images: "true"
+                  remove-docker-engine: "true"
 
             - name: Bootstrap a copy of the Firefox source code
               uses: actions/checkout@v5
               with:
                   repository: "mozilla-firefox/firefox"
+                  fetch-depth: 1
+                  submodules: recursive
 
             - name: System preparation
               run: sudo apt-get update && sudo apt-get install curl python3 python3-pip git
