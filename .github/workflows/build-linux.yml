@@ -19,10 +19,10 @@ jobs:
 
         steps:
             - name: Maximize build space
-              uses: justinthelaw/maximize-github-runner-space@v1
+              uses: justinthelaw/maximize-github-runner-space@v0.10.0
               with:
                   cleanup-profile: custom
-                  swapfile-size: 1GiB
+                  swapfile-size: 2G
                   remove-dotnet: "true"
                   remove-android: "true"
                   remove-haskell: "true"
